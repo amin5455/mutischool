@@ -1,6 +1,6 @@
-<!-- @extends('superadmin.layouts.app') -->
+@extends('layouts.app')
 
-
+@section('content')
 <div class="container">
     <h2 class="mb-4">Super Admin - Manage Schools</h2>
 

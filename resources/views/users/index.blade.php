@@ -1,9 +1,9 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800 leading-tight">
+@extends('layouts.app') <!-- If you're using a common layout -->
+
+@section('content')
+        <h2 class="mt-2 ml-2">
             All Users
         </h2>
-    </x-slot>
 
     <div class="p-6">
         <table class="min-w-full bg-white border border-gray-300 rounded-lg">
@@ -31,4 +31,5 @@
             </tbody>
         </table>
     </div>
-</x-app-layout>
+@endsection
+

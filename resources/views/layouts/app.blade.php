@@ -32,6 +32,12 @@
                     <i class="bi bi-people-fill me-1"></i> View Users
                 </a>
             </li>
+            <li class="nav-item">
+                 <a href="{{ route('classes.index') }}" class="nav-link">
+                   <i class="bi bi-journal-text me-1"></i> Manage Classes
+                 </a>
+             </li>
+
         @endif
     </ul>
 </aside>

@@ -11,7 +11,7 @@ class UserController extends Controller
     public function index()
 {
     // Admins can see all users
-    $users = User::with('school')->where('id', '!=', Auth::id())->get();
+    $users = User::with('school')->where('id', '!=', Auth::id())->where('school_id', auth()->user()->school_id)->get();
 
     return view('users.index', compact('users'));
 }

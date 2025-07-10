@@ -27,9 +27,20 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $user = auth()->user();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+
+
+    if ($user->role === 'super_admin') {
+        return redirect()->route('superadmin');
     }
+       elseif (!auth()->user()->school || auth()->user()->school->status === 'inactive') {
+    auth()->logout();
+    return redirect()->route('login')->with('status', 'Your school is currently inactive.');
+}    
+
+    return redirect()->route('dashboard');
+}
 
     /**
      * Destroy an authenticated session.

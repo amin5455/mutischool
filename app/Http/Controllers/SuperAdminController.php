@@ -10,7 +10,7 @@ class SuperAdminController extends Controller
     public function index()
 {
     $schools = School::all();
-    return view('superadmin.dashboard');
+   return view('superadmin.dashboard', compact('schools'));
 }
 
 public function toggleStatus(School $school)

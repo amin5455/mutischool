@@ -1,9 +1,10 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800 leading-tight">
+@extends('layouts.app') <!-- If you're using a common layout -->
+
+@section('content')
+        <h2 class="mt-2 ml-2">
             Add New User (Teacher / Student)
         </h2>
-    </x-slot>
+    
 
     <div class="p-6">
         <form method="POST" action="{{ route('users.store') }}" class="space-y-4">
@@ -44,4 +45,5 @@
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Create User</button>
         </form>
     </div>
-</x-app-layout>
+@endsection
+
