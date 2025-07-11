@@ -28,10 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/users', [UserController::class, 'index'])->middleware(['auth'])->name('users.index');
-        Route::get('/classes', [ClassController::class, 'index'])->name('classes.index');
+    Route::get('/classes', [ClassController::class, 'index'])->name('classes.index');
     Route::post('/classes', [ClassController::class, 'store'])->name('classes.store');
     Route::put('/classes/{id}', [ClassController::class, 'update'])->name('classes.update');
     Route::delete('/classes/{id}', [ClassController::class, 'destroy'])->name('classes.destroy');
+
 
 });
 

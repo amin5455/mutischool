@@ -16,10 +16,11 @@ class ClassController extends Controller
 
     public function store(Request $request)
     {
+        
          $request->validate([
-        'name' => 'required|string|max:255',
-        'school_id' => 'required|exists:schools,id',
+        'name' => 'required|string|max:255|unique:school_classes,name,NULL,id,school_id,' . auth()->user()->school_id,
     ]);
+
 
     SchoolClass::create($request->only('name', 'school_id'));
 
@@ -29,23 +30,25 @@ class ClassController extends Controller
     return response()->json(['success' => true, 'table' => $table]);
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|max:255|unique:school_classes,name,' . $id . ',id,school_id,' . auth()->user()->school_id,
+    ]);
 
-        $class = SchoolClass::findOrFail($id);
-        $class->update(['name' => $request->name]);
+    $class = SchoolClass::where('school_id', auth()->user()->school_id)->findOrFail($id);
+    $class->name = $request->name;
+    $class->save();
 
-        return response()->json(['success' => true, 'class' => $class]);
-    }
+    return response()->json(['success' => 'Class updated successfully.']);
+}
 
-    public function destroy($id)
-    {
-        $class = SchoolClass::findOrFail($id);
-        $class->delete();
+public function destroy($id)
+{
+    $class = SchoolClass::where('school_id', auth()->user()->school_id)->findOrFail($id);
+    $class->delete();
 
-        return response()->json(['success' => true]);
-    }
+    return response()->json(['success' => 'Class deleted successfully.']);
+}
+
 }

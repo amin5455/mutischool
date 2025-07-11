@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard - {{ config('app.name', 'MultiSchool') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js']) {{-- Keep for Laravel --}}
     <!-- Bootstrap & Icons -->
@@ -120,7 +121,14 @@
  </main>
         </div>
     </div>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{ asset('js/class.js') }}"></script>  {{-- We'll create this file next --}}
 
 </body>
 </html>

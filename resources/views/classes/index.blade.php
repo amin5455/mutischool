@@ -16,6 +16,8 @@
         <tr>
             <th>#</th>
             <th>Class Name</th>
+            <th>Action</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -23,6 +25,21 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $class->name }}</td>
+                <td>
+                <button class="btn btn-sm btn-primary edit-class-btn" 
+                  data-id="{{ $class->id }}" 
+                  data-name="{{ $class->name }}">
+                  Edit
+                </button>
+                <button class="btn btn-sm btn-danger delete-class-btn"
+                 data-id="{{ $class->id }}"
+                 data-name="{{ $class->name }}">
+                  Delete
+                  </button>
+
+                </td>
+                
+
             </tr>
         @empty
             <tr>
@@ -48,6 +65,7 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">Class Name</label>
                                 <input type="text" class="form-control" name="name" id="name" required>
+                                <small id="classNameError" class="text-danger"></small>
                             </div>
                             <input type="hidden" name="school_id" value="{{ Auth::user()->school_id }}">
                         </div>
@@ -61,38 +79,55 @@
         </div>
     </div>
 
-    {{-- AJAX Script --}}
-    <script>
-        document.getElementById('classForm').addEventListener('submit', function (e) {
-            e.preventDefault();
 
-            const formData = new FormData(this);
-            fetch("{{ route('classes.store') }}", {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    // Close modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('classModal'));
-                    modal.hide();
 
-                    // Reset form
-                    document.getElementById('classForm').reset();
 
-                    // Refresh table
-                    document.getElementById('classesTable').innerHTML = data.table;
-                } else {
-                    alert('Error saving class');
-                }
-            })
-            .catch(err => console.error(err));
-        });
-    </script>
+
+    <div class="modal fade" id="editClassModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Class</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editClassId">
+        <div class="mb-3">
+            <label>Class Name</label>
+            <input type="text" id="editClassName" class="form-control">
+            <small id="editClassNameError" class="text-danger"></small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="updateClassBtn" class="btn btn-primary">Update</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="deleteClassModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Class</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the class <strong id="deleteClassName"></strong>?</p>
+        <input type="hidden" id="deleteClassId">
+      </div>
+      <div class="modal-footer">
+        <button id="confirmDeleteClass" class="btn btn-danger">Yes, Delete</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 @endsection
 
