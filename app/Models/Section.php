@@ -15,8 +15,10 @@ class Section extends Model
         'school_class_id',
     ];
 
-    public function class()
+
+public function schoolClass()
 {
     return $this->belongsTo(SchoolClass::class, 'school_class_id');
 }
+
 }

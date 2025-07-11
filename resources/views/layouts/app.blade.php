@@ -38,6 +38,11 @@
                    <i class="bi bi-journal-text me-1"></i> Manage Classes
                  </a>
              </li>
+            <li class="nav-item">
+                  <a href="{{ route('sections.index') }}" class="nav-link">
+                   <i class="bi bi-layers"></i> Manage Sections
+    </a>
+            </li>
 
         @endif
     </ul>
@@ -129,6 +134,8 @@
     
     <!-- Custom JS -->
     <script src="{{ asset('js/class.js') }}"></script>  {{-- We'll create this file next --}}
+    <script src="{{ asset('js/section.js') }}"></script>
+
 
 </body>
 </html>
