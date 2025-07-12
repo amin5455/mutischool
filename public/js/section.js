@@ -9,7 +9,7 @@ $(document).ready(function () {
                     <tr>
                         <td>${section.id}</td>
                         <td>${section.name}</td>
-                        <td>${section.class.name}</td>
+                        <td>${section.school_class.name}</td>
                         <td>
                             <button class="btn btn-sm btn-info edit-section" data-id="${section.id}">Edit</button>
                             <button class="btn btn-sm btn-danger delete-section" data-id="${section.id}">Delete</button>
@@ -21,39 +21,75 @@ $(document).ready(function () {
         });
     }
 
-    $('#sectionForm').on('submit', function (e) {
-        e.preventDefault();
-        let formData = $(this).serialize();
-        $.post('/sections', formData, function (res) {
-            $('#sectionForm')[0].reset();
+$('#sectionForm').on('submit', function (e) {
+    e.preventDefault();
+
+    let sectionId = $('#section_id').val();
+    let url = sectionId ? `/sections/${sectionId}` : '/sections';
+    let method = sectionId ? 'PUT' : 'POST';
+
+    $.ajax({
+        url: url,
+        type: method,
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            name: $('#section_name').val(),
+            school_class_id: $('#school_class_id').val()
+        },
+        success: function () {
             $('#sectionModal').modal('hide');
+            $('#sectionForm')[0].reset();
+            $('#section_id').val('');
             fetchSections();
-        }).fail(function (xhr) {
-            alert(xhr.responseText);
-        });
-    });
-
-    $(document).on('click', '.edit-section', function () {
-        const id = $(this).data('id');
-        $.get('/sections/' + id, function (section) {
-            $('#section_id').val(section.id);
-            $('#name').val(section.name);
-            $('#school_class_id').val(section.school_class_id);
-            $('#sectionModal').modal('show');
-        });
-    });
-
-    $(document).on('click', '.delete-section', function () {
-        if (confirm('Are you sure you want to delete this section?')) {
-            const id = $(this).data('id');
-            $.ajax({
-                url: '/sections/' + id,
-                type: 'DELETE',
-                data: { _token: $('input[name="_token"]').val() },
-                success: function () {
-                    fetchSections();
-                }
-            });
+        },
+        error: function (xhr) {
+            alert('Error: ' + xhr.responseJSON.message);
         }
     });
+});
+
+
+$(document).on('click', '.edit-section', function () {
+    let id = $(this).data('id');
+
+    $.get(`/sections/${id}/edit`, function (section) {
+        $('#section_id').val(section.id);
+        $('#section_name').val(section.name);
+        $('#school_class_id').val(section.school_class_id);
+
+        // Bootstrap 5 modal show
+        const modal = new bootstrap.Modal(document.getElementById('sectionModal'));
+        modal.show();
+    });
+});
+
+
+
+// Open Delete Modal
+$(document).on('click', '.delete-section', function () {
+    let id = $(this).data('id');
+    $('#delete_section_id').val(id);
+    $('#deleteSectionModal').modal('show');
+});
+
+// Confirm Delete
+$('#confirmDeleteSection').on('click', function () {
+    let id = $('#delete_section_id').val();
+
+    $.ajax({
+        url: `/sections/${id}`,
+        type: 'DELETE',
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+        },
+        success: function (res) {
+            $('#deleteSectionModal').modal('hide');
+            fetchSections();
+        },
+        error: function (err) {
+            alert('Error deleting section');
+        }
+    });
+});
+
 });

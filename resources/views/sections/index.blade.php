@@ -31,6 +31,9 @@
             <form id="sectionForm">
                 @csrf
                 <div class="modal-content">
+                    <input type="hidden" name="school_id" value="{{ Auth::user()->school_id }}">
+                    <input type="hidden" id="section_id" name="section_id">
+
                     <div class="modal-header">
                         <h5 class="modal-title" id="sectionModalLabel">Add Section</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -39,7 +42,7 @@
                         <input type="hidden" name="section_id" id="section_id">
                         <div class="mb-3">
                             <label for="name" class="form-label">Section Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="section_name" name="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="class_id" class="form-label">Select Class</label>
@@ -59,6 +62,28 @@
             </form>
         </div>
     </div>
+
+
+    <!-- Delete Section Modal -->
+<div class="modal fade" id="deleteSectionModal" tabindex="-1" aria-labelledby="deleteSectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteSectionModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this section?
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="delete_section_id">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteSection">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Include JS -->
     <script src="{{ asset('js/section.js') }}"></script>

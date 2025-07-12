@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,9 +38,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/classes/{id}', [ClassController::class, 'destroy'])->name('classes.destroy');
     Route::get('/sections', [SectionController::class, 'index'])->name('sections.index');
     Route::post('/sections', [SectionController::class, 'store'])->name('sections.store');
-    Route::get('/sections/{section}', [SectionController::class, 'show'])->name('sections.show');
+    Route::get('/sections/list', [SectionController::class, 'list'])->name('sections.list'); 
+    Route::get('/sections/{id}/edit', [SectionController::class, 'edit']);
     Route::put('/sections/{section}', [SectionController::class, 'update'])->name('sections.update');
     Route::delete('/sections/{section}', [SectionController::class, 'destroy'])->name('sections.destroy');
+
+    Route::resource('students', StudentController::class);
+    Route::get('/students/list', [StudentController::class, 'show'])->name('students.list');
+    Route::get('/sections-by-class/{class_id}', [StudentController::class, 'getSectionsByClass']);
+
 
 });
 

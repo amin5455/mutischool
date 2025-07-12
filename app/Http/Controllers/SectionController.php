@@ -17,35 +17,61 @@ class SectionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:sections,name,NULL,id,school_class_id,' . $request->school_class_id,
-            'school_class_id' => 'required'
-        ]);
+            $request->validate([
+        'name' => 'required|unique:sections,name,NULL,id,school_class_id,' . $request->school_class_id,
+        'school_class_id' => 'required|exists:school_classes,id',
+    ]);
 
-        Section::create($request->all());
+        Section::create([
+        'name' => $request->name,
+        'school_class_id' => $request->school_class_id,
+        'school_id' => auth()->user()->school_id,
+       ]);
+
+
+        // Section::create($request->all());
         return response()->json(['success' => 'Section created successfully.']);
     }
 
-    public function update(Request $request, Section $section)
-    {
-        $request->validate([
-            'name' => 'required|unique:sections,name,' . $section->id . ',id,school_class_id,' . $request->school_class_id,
-            'school_class_id' => 'required'
-        ]);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required',
+        'school_class_id' => 'required|exists:school_classes,id',
+    ]);
 
-        $section->update($request->all());
-        return response()->json(['success' => 'Section updated successfully.']);
-    }
+    $section = Section::findOrFail($id);
+    $section->update([
+    'name' => $request->name,
+    'school_class_id' => $request->school_class_id,
+]);
+    return response()->json(['message' => 'Section updated']);
+}
 
-    public function destroy(Section $section)
-    {
-        $section->delete();
-        return response()->json(['success' => 'Section deleted successfully.']);
-    }
 
-    public function show(Section $section)
-    {
-        return response()->json($section);
-    }
+public function destroy($id)
+{
+    $section = Section::findOrFail($id);
+    $section->delete();
+
+    return response()->json(['message' => 'Section deleted successfully']);
+}
+
+
+    public function edit($id)
+{
+    $section = Section::findOrFail($id);
+    return response()->json($section);
+}
+
+public function list()
+{
+    $sections = Section::with('schoolClass')
+        ->where('school_id', auth()->user()->school_id)
+        ->get();
+
+    return response()->json($sections);
+}
+
 }
 
