@@ -51,7 +51,25 @@
                         <span>Student Management</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('teachers.index') }}" class="nav-link {{ request()->is('teachers*') ? 'active' : '' }}">
+                        <i class="bi bi-person-badge-fill me-2"></i> Teachers
+                    </a>
+                </li>
+            <li class="nav-item">
+                <a href="{{ route('subjects.index') }}" class="nav-link">
+                    <i class="bi bi-journal-bookmark-fill me-2"></i>
+                    Subjects
+                </a>
+            </li>
+              <li class="nav-item">
+                  <a href="{{ route('assign.index') }}" class="nav-link">
+                      <i class="bi bi-person-video3 me-2"></i>
+                      Assign Subjects
+                  </a>
+              </li>
 
+               
 
                 @endif
             </ul>
@@ -98,6 +116,24 @@
                         <span>Student Management</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('teachers.index') }}" class="nav-link {{ request()->is('teachers*') ? 'active' : '' }}">
+                      <i class="bi bi-person-badge-fill me-2"></i> Teachers
+                    </a>
+                </li>
+                 <li class="nav-item">
+                     <a href="{{ route('subjects.index') }}" class="nav-link">
+                         <i class="bi bi-journal-bookmark-fill me-2"></i>
+                         Subjects
+                     </a>
+                 </li>
+                 <li class="nav-item">
+                     <a href="{{ route('assign.index') }}" class="nav-link">
+                         <i class="bi bi-person-video3 me-2"></i>
+                         Assign Subjects
+                     </a>
+                 </li>
+
 
                     @endif
                 </ul>
@@ -165,6 +201,10 @@
     <script src="{{ asset('js/class.js') }}"></script> {{-- We'll create this file next --}}
     <script src="{{ asset('js/section.js') }}"></script>
     <script src="{{ asset('js/student.js') }}"></script>
+    <script src="{{ asset('js/teacher.js') }}"></script>
+    <script src="{{ asset('js/subject.js') }}"></script>
+    <script src="{{ asset('js/assign-subject.js') }}"></script>
+
 
 
 

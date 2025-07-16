@@ -8,6 +8,9 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ClassSubjectTeacherController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,6 +50,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/students/list', [StudentController::class, 'show'])->name('students.list');
     Route::get('/sections-by-class/{class_id}', [StudentController::class, 'getSectionsByClass']);
 
+    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+    Route::get('/teachers/fetch', [TeacherController::class, 'fetch'])->name('teachers.fetch');
+    Route::post('/teachers/store', [TeacherController::class, 'store'])->name('teachers.store');
+    Route::put('/teachers/update/{id}', [TeacherController::class, 'update'])->name('teachers.update');
+    Route::delete('/teachers/delete/{id}', [TeacherController::class, 'destroy'])->name('teachers.delete');
+
+    Route::resource('subjects', SubjectController::class)->except(['show']);
+    Route::get('/get-subjects', [SubjectController::class, 'getSubjects'])->name('subjects.list');
+
+    Route::get('/assign-subjects', [ClassSubjectTeacherController::class, 'index'])->name('assign.index');
+    Route::get('/assign-subjects/list', [ClassSubjectTeacherController::class, 'list'])->name('assign.list');
+    Route::post('/assign-subjects/store', [ClassSubjectTeacherController::class, 'store'])->name('assign.store');
+    Route::delete('/assign-subjects/{id}', [ClassSubjectTeacherController::class, 'destroy'])->name('assign.destroy');
 
 });
 
