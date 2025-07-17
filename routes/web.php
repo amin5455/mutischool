@@ -11,6 +11,9 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ClassSubjectTeacherController;
+use App\Http\Controllers\TimetableController;
+use App\Http\Controllers\AttendanceController;
+use App\Models\Section;
 
 Route::get('/', function () {
     return view('welcome');
@@ -63,6 +66,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/assign-subjects/list', [ClassSubjectTeacherController::class, 'list'])->name('assign.list');
     Route::post('/assign-subjects/store', [ClassSubjectTeacherController::class, 'store'])->name('assign.store');
     Route::delete('/assign-subjects/{id}', [ClassSubjectTeacherController::class, 'destroy'])->name('assign.destroy');
+
+    Route::get('/timetable', [TimetableController::class, 'index'])->name('timetable.index');
+    Route::post('/timetable/store', [TimetableController::class, 'store'])->name('timetable.store');
+    Route::get('/timetable/list', [TimetableController::class, 'list'])->name('timetable.list');
+    Route::delete('/timetable/{id}', [TimetableController::class, 'destroy'])->name('timetable.destroy');
+
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('/attendance/load-students', [AttendanceController::class, 'loadStudents'])->name('attendance.loadStudents');
+    Route::post('/attendance/store', [AttendanceController::class, 'store'])->name('attendance.store');
+
+Route::get('/get-sections/{class_id}', [AttendanceController::class, 'getSectionsByClass']);
+
+
 
 });
 

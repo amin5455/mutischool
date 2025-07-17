@@ -69,7 +69,38 @@
                   </a>
               </li>
 
+              
                
+
+
+                <div class="dropdown">
+ 
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="timetableDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-calendar2-week me-2"></i> Manage Timetable
+    </a>
+    <ul class="dropdown-menu border-0 shadow" aria-labelledby="timetableDropdown">
+        <li>
+            <a class="dropdown-item" href="">
+                <i class="bi bi-calendar-day me-2"></i> Day-wise Timetable
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="dropdown-item nav-link" href="{{ route('timetable.index') }}">
+                <i class="bi bi-calendar-week me-2"></i> Full Week Timetable
+            </a>
+        </li>
+    </ul>
+</li>
+
+</div>
+
+ <li class="nav-item">
+                    <a href="{{ route('attendance.index') }}" class="nav-link">
+                        <i class="bi bi-check-square me-2"></i> Attendance
+                    </a>
+                </li>
+
 
                 @endif
             </ul>
@@ -133,6 +164,17 @@
                          Assign Subjects
                      </a>
                  </li>
+                 <li class="nav-item">
+                   <a href="{{ route('timetable.index') }}" class="nav-link">
+                       <i class="bi bi-calendar2-week me-2"></i> Class Timetable
+                   </a>
+                 </li>
+                 <li class="nav-item">
+                     <a href="{{ route('attendance.index') }}" class="nav-link">
+                         <i class="bi bi-check-square me-2"></i> Attendance
+                     </a>
+                 </li>
+
 
 
                     @endif
@@ -204,6 +246,9 @@
     <script src="{{ asset('js/teacher.js') }}"></script>
     <script src="{{ asset('js/subject.js') }}"></script>
     <script src="{{ asset('js/assign-subject.js') }}"></script>
+    <script src="{{ asset('js/timetable.js') }}"></script>
+     <script src="{{ asset('js/attendance.js') }}"></script>
+    
 
 
 
