@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\School;
 use App\Models\Section;
+use App\Models\Timetable;
 
 class SchoolClass extends Model
 {
@@ -23,5 +24,9 @@ class SchoolClass extends Model
 public function sections()
 {
     return $this->hasMany(Section::class);
+}
+public function timetables()
+{
+    return $this->hasMany(Timetable::class, 'class_id');
 }
 }

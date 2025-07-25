@@ -44,6 +44,8 @@ class TimetableController extends Controller
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
+
+
         $start = Carbon::createFromFormat('H:i', $request->start_time)->format('H:i:s');
         $end = Carbon::createFromFormat('H:i', $request->end_time)->format('H:i:s');
 
@@ -80,4 +82,16 @@ if ($conflict) {
         Timetable::findOrFail($id)->delete();
         return response()->json(['success' => 'Routine deleted']);
     }
+    public function showAllTimetables()
+{
+    $classes = SchoolClass::with('timetables.subject', 'timetables.teacher')->get();
+    return view('timetable.print_all', compact('classes'));
+}
+
+public function printClassTimetable($id)
+{
+    $class = SchoolClass::with('timetables.subject', 'timetables.teacher')
+                ->where('id', $id)->firstOrFail();
+    return view('timetable.print_single', compact('class'));
+}
 }

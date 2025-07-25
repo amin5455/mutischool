@@ -80,14 +80,16 @@
         <i class="bi bi-calendar2-week me-2"></i> Manage Timetable
     </a>
     <ul class="dropdown-menu border-0 shadow" aria-labelledby="timetableDropdown">
-        <li>
-            <a class="dropdown-item" href="">
-                <i class="bi bi-calendar-day me-2"></i> Day-wise Timetable
-            </a>
-        </li>
+
         <li class="nav-item">
             <a class="dropdown-item nav-link" href="{{ route('timetable.index') }}">
                 <i class="bi bi-calendar-week me-2"></i> Full Week Timetable
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="dropdown-item nav-link" href="{{ route('timetables.print') }}">
+                <i class="bi bi-calendar-day me-2"></i> Print Timetable
             </a>
         </li>
     </ul>
@@ -247,8 +249,9 @@
     <script src="{{ asset('js/subject.js') }}"></script>
     <script src="{{ asset('js/assign-subject.js') }}"></script>
     <script src="{{ asset('js/timetable.js') }}"></script>
-     <script src="{{ asset('js/attendance.js') }}"></script>
-    
+    <script src="{{ asset('js/attendance.js') }}"></script>
+    <script src="{{ asset('js/exam.js') }}"></script>
+    <script src="{{ asset('js/marks.js') }}"></script>
 
 
 

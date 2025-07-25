@@ -39,12 +39,15 @@ $(document).ready(function () {
                 res.students.forEach(std => {
                     let presentChecked = res.attendance[std.id] === 'present' ? 'checked' : '';
                     let absentChecked = res.attendance[std.id] === 'absent' ? 'checked' : '';
+                    let leaveChecked = res.attendance[std.id] === 'leave' ? 'checked' : '';
+
 
                     $('#studentList').append(`
                         <tr>
                             <td>${std.name}</td>
                             <td><input type="radio" name="attendances[${std.id}]" value="present" ${presentChecked} required></td>
                             <td><input type="radio" name="attendances[${std.id}]" value="absent" ${absentChecked} required></td>
+                            <td><input type="radio" name="attendances[${std.id}]" value="leave" ${leaveChecked} required></td>
                         </tr>
                     `);
                 });

@@ -14,6 +14,9 @@ use App\Http\Controllers\ClassSubjectTeacherController;
 use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\AttendanceController;
 use App\Models\Section;
+use App\Http\Controllers\ExamController;
+use App\Http\Controllers\MarksController;
+use App\Http\Controllers\ResultController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -76,9 +79,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/attendance/load-students', [AttendanceController::class, 'loadStudents'])->name('attendance.loadStudents');
     Route::post('/attendance/store', [AttendanceController::class, 'store'])->name('attendance.store');
 
-Route::get('/get-sections/{class_id}', [AttendanceController::class, 'getSectionsByClass']);
+    Route::get('/get-sections/{class_id}', [AttendanceController::class, 'getSectionsByClass']);
 
+    Route::get('/timetables/print', [TimetableController::class, 'showAllTimetables'])->name('timetables.print');
+    Route::get('/timetables/print/class/{id}', [TimetableController::class, 'printClassTimetable'])->name('timetables.print.class');
 
+    Route::resource('exams', ExamController::class);
+    Route::post('/exam-subjects', [ExamController::class, 'storeExamSubjects'])->name('exam.subjects.store');
+
+    Route::get('/marks-entry', [MarksController::class, 'index'])->name('marks.index');
+    Route::post('/marks-entry/fetch-students', [MarksController::class, 'fetchStudents']);
+    Route::post('/marks-store', [MarksController::class, 'store'])->name('marks.store');
+    
+   Route::get('/exam-results', [ResultController::class, 'studentList'])->name('results.index');
+    Route::get('/student-result/{student_id}/{exam_id}', [ResultController::class, 'show'])->name('result.show');
+    Route::get('/student-result/pdf/{student_id}/{exam_id}', [ResultController::class, 'downloadPdf'])->name('result.pdf');
 
 });
 
