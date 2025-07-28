@@ -103,6 +103,29 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+    <a class="nav-link" href="{{ route('exams.index') }}">
+        <i class="bi bi-journal-text"></i> {{-- Icon for Exams --}}
+        <span>Manage Exams</span>
+    </a>
+</li>
+
+
+                <li class="nav-item">
+    <a class="nav-link" href="{{ route('marks.index') }}">
+        <i class="bi bi-pencil-square"></i> {{-- Bootstrap icon for mark entry --}}
+        <span>Marks Entry</span>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('results.index') }}">
+        <i class="bi bi-clipboard-data"></i> {{-- Bootstrap icon --}}
+        <span>Exam Results</span>
+    </a>
+</li>
+
+
 
                 @endif
             </ul>

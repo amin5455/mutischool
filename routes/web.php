@@ -17,6 +17,9 @@ use App\Models\Section;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\MarksController;
 use App\Http\Controllers\ResultController;
+use App\Http\Controllers\FeeTypeController;
+use App\Http\Controllers\FeeAssignmentController;
+use App\Http\Controllers\StudentFeeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -94,6 +97,10 @@ Route::middleware('auth')->group(function () {
    Route::get('/exam-results', [ResultController::class, 'studentList'])->name('results.index');
     Route::get('/student-result/{student_id}/{exam_id}', [ResultController::class, 'show'])->name('result.show');
     Route::get('/student-result/pdf/{student_id}/{exam_id}', [ResultController::class, 'downloadPdf'])->name('result.pdf');
+
+    Route::resource('fee-types', FeeTypeController::class);
+    Route::resource('fee-assignments', FeeAssignmentController::class);
+    Route::resource('student-fees', StudentFeeController::class);
 
 });
 

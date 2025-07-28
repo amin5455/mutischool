@@ -48,7 +48,7 @@
             @foreach($students as $student)
             <tr>
                 <td>{{ $student->name }}</td>
-                <td>{{ $student->class->name ?? '-' }}</td>
+                <td>{{ $student->schoolclass->name ?? '-' }}</td>
                 <td>{{ $student->section->name ?? '-' }}</td>
                 <td>
                     <a href="{{ route('result.show', [$student->id, request('exam_id')]) }}" class="btn btn-sm btn-success">View Result</a>

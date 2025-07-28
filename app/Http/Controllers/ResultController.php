@@ -8,6 +8,8 @@ use App\Models\Grade;
 use App\Models\Section;
 use App\Models\SchoolClass; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ResultController extends Controller
@@ -17,63 +19,101 @@ class ResultController extends Controller
     $students = [];
 
     if ($request->has(['class_id', 'exam_id'])) {
-        $students = Student::with('section', 'class')
+        $students = Student::with('section', 'SchoolClass')
             ->where('class_id', $request->class_id)
             ->where('school_id', auth()->user()->school_id) // if school_id is needed
             ->get();
     }
 
-    $classes = ClassModel::all();
+    $classes = SchoolClass::all();
     $exams = Exam::all();
 
     return view('result.index', compact('students', 'classes', 'exams'));
 }
 
-    public function calculateResult($student_id, $exam_id)
-    {
-        $subjects = Mark::with('examSubject')
-            ->where('student_id', $student_id)
-            ->whereHas('examSubject', function($q) use ($exam_id) {
-                $q->where('exam_id', $exam_id);
-            })->get();
+public function calculateResult($student_id, $exam_id)
+{
+    $student = Student::with('SchoolClass')->findOrFail($student_id);
 
-        $total_obtained = 0;
-        $total_marks = 0;
+    $marks = \App\Models\Mark::with('subject')
+        ->where('student_id', $student_id)
+        ->where('exam_id', $exam_id)
+        ->get();
 
-        foreach ($subjects as $mark) {
-            $total_obtained += $mark->obtained_marks;
-            $total_marks += $mark->examSubject->total_marks;
-        }
+    $total_obtained = 0;
+    $total_marks = 0;
 
-        $percentage = ($total_marks > 0) ? ($total_obtained / $total_marks) * 100 : 0;
+    foreach ($marks as $mark) {
+        $total_obtained += $mark->marks_obtained;
 
-        $student = Student::find($student_id);
+        // Get total marks from exam_subjects table
+        $examSubject = \App\Models\ExamSubject::where('exam_id', $exam_id)
+            ->where('school_class_id', $student->class_id)
+            ->where('subject_id', $mark->subject_id)
+            ->first();
 
-        $grade = Grade::where('school_id', $student->school_id)
-                      ->where('min_percentage', '<=', $percentage)
-                      ->where('max_percentage', '>=', $percentage)
-                      ->first();
-
-        return [
-            'total_obtained' => $total_obtained,
-            'total_marks' => $total_marks,
-            'percentage' => round($percentage, 2),
-            'grade' => $grade->grade_name ?? 'N/A',
-        ];
+        $total_marks += $examSubject->total_marks ?? 0;
     }
+
+    $percentage = ($total_marks > 0) ? ($total_obtained / $total_marks) * 100 : 0;
+
+    $grade = \App\Models\Grade::where('school_id', $student->school_id)
+        ->where('min_percentage', '<=', $percentage)
+        ->where('max_percentage', '>=', $percentage)
+        ->first();
+
+    return [
+        'total_obtained' => $total_obtained,
+        'total_marks' => $total_marks,
+        'percentage' => round($percentage, 2),
+        'grade' => $grade->grade_name ?? 'N/A',
+    ];
+}
+
 
     public function show($student_id, $exam_id)
     {
         $student = Student::findOrFail($student_id);
         $exam = Exam::findOrFail($exam_id);
-        $marks = Mark::with('examSubject.subject')
-            ->where('student_id', $student_id)
-            ->whereHas('examSubject', fn($q) => $q->where('exam_id', $exam_id))
-            ->get();
+        
 
+// $marks = DB::table('marks')
+//     ->join('exam_subjects', function ($join) use ($student, $exam_id) {
+//         $join->on('marks.exam_id', '=', 'exam_subjects.exam_id')
+//             ->where('exam_subjects.school_class_id', '=', $student->class_id)
+//             ->on('marks.subject_id', '=', 'exam_subjects.subject_id');
+//     })
+//     ->join('subjects', 'marks.subject_id', '=', 'subjects.id')
+//     ->select(
+//         'subjects.name as subject_name',
+//         'marks.marks_obtained',
+//         'exam_subjects.total_marks'
+//     )
+//     ->where('marks.student_id', $student_id)
+//     ->where('marks.exam_id', $exam_id)
+//     ->get();
+
+
+        $student = Student::with('schoolClass')->findOrFail($student_id);
+
+         $marks = Mark::with('subject')
+         ->where('student_id', $student_id)
+         ->where('exam_id', $exam_id)
+         ->get();
+ 
+        
         $result = $this->calculateResult($student_id, $exam_id);
+        
+        // return view('result.card', compact('student', 'exam', 'marks', 'result'));
+        return view('result.card', [
+    'marks' => $marks,
+    'student' => $student,
+    'result' => $result,
+    'exam' => $exam, // ✅ add this line
+    'exam_id' => $exam_id, // ✅ add this line
+]);
 
-        return view('result.card', compact('student', 'exam', 'marks', 'result'));
+
     }
 
     public function downloadPdf($student_id, $exam_id)

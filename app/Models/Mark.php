@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Mark extends Model
 {
      protected $fillable = [
-        'student_id',
         'exam_id',
         'class_id',
         'section_id',
         'subject_id',
+        'student_id',
+        'exam_subject_id',
         'marks_obtained',
-        'school_id', // only if you're doing multi-school setup
     ];
 
     // Relationships
@@ -42,4 +42,9 @@ class Mark extends Model
     {
         return $this->belongsTo(School::class);
     }
+    public function examSubject()
+{
+    return $this->belongsTo(ExamSubject::class);
+}
+
 }

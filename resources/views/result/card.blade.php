@@ -12,13 +12,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($marks as $mark)
-                <tr>
-                    <td>{{ $mark->examSubject->subject->name }}</td>
-                    <td>{{ $mark->examSubject->total_marks }}</td>
-                    <td>{{ $mark->obtained_marks }}</td>
-                </tr>
-            @endforeach
+@foreach ($marks as $mark)
+    @php
+        $examSubject = \App\Models\ExamSubject::where('exam_id', $exam_id)
+            ->where('school_class_id', $student->class_id)
+            ->where('subject_id', $mark->subject_id)
+            ->first();
+    @endphp
+    <tr>
+        <td>{{ $mark->subject->name ?? 'N/A' }}</td>
+        <td>{{ $examSubject->total_marks ?? 'N/A' }}</td>
+        <td>{{ $mark->marks_obtained }}</td>
+    </tr>
+@endforeach
+
+
+
             <tr>
                 <td><strong>Total</strong></td>
                 <td>{{ $result['total_marks'] }}</td>
