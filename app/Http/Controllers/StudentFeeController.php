@@ -3,9 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FeeType;
+use App\Models\Student;
+use App\Models\StudentFee;
+
 
 class StudentFeeController extends Controller
 {
+
+    public function index()
+{
+    $school_id = auth()->user()->school_id;
+
+    $fees = StudentFee::with(['student', 'feeType'])
+                ->whereHas('student', function ($q) use ($school_id) {
+                    $q->where('school_id', $school_id);
+                })
+                ->latest()
+                ->get();
+
+    return view('student_fees.index', compact('fees'));
+}
+
     public function create()
 {
     $students = Student::where('school_id', auth()->user()->school_id)->get();

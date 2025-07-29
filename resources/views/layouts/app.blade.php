@@ -126,6 +126,27 @@
 </li>
 
 
+    <!-- Fee Types -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('fee-types.index') }}">
+            <i class="bi bi-cash-coin me-2"></i> Fee Types
+        </a>
+    </li>
+
+    <!-- Fee Assignments -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('fee-assignments.index') }}">
+            <i class="bi bi-ui-checks-grid me-2"></i> Assign Fees
+        </a>
+    </li>
+
+    <!-- Student Fees -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('student-fees.index') }}">
+            <i class="bi bi-receipt-cutoff me-2"></i> Fee Collection
+        </a>
+    </li>
+
 
                 @endif
             </ul>
