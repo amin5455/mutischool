@@ -48,105 +48,144 @@
                 <li class="nav-item">
                     <a href="{{ route('students.index') }}" class="nav-link">
                         <i class="bi bi-people-fill"></i> <!-- FontAwesome icon (optional) -->
-                        <span>Student Management</span>
+                        <span>Manage Students</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('teachers.index') }}" class="nav-link {{ request()->is('teachers*') ? 'active' : '' }}">
-                        <i class="bi bi-person-badge-fill me-2"></i> Teachers
+                    <a href="{{ route('teachers.index') }}"
+                        class="nav-link {{ request()->is('teachers*') ? 'active' : '' }}">
+                        <i class="bi bi-person-badge-fill me-2"></i>Manage Teachers
                     </a>
                 </li>
-            <li class="nav-item">
-                <a href="{{ route('subjects.index') }}" class="nav-link">
-                    <i class="bi bi-journal-bookmark-fill me-2"></i>
-                    Subjects
-                </a>
-            </li>
-              <li class="nav-item">
-                  <a href="{{ route('assign.index') }}" class="nav-link">
-                      <i class="bi bi-person-video3 me-2"></i>
-                      Assign Subjects
-                  </a>
-              </li>
-
-              
-               
-
 
                 <div class="dropdown">
- 
-    <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="timetableDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-calendar2-week me-2"></i> Manage Timetable
-    </a>
-    <ul class="dropdown-menu border-0 shadow" aria-labelledby="timetableDropdown">
 
-        <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{{ route('timetable.index') }}">
-                <i class="bi bi-calendar-week me-2"></i> Full Week Timetable
-            </a>
-        </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="subjectDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-journal-bookmark-fill me-2"></i> Manage Subjects
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow" aria-labelledby="subjectDropdown">
+                            <li class="nav-item">
+                                <a href="{{ route('subjects.index') }}" class="nav-link">
+                                    <i class="bi bi-journal-bookmark-fill me-2"></i>
+                                    Subjects
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('assign.index') }}" class="nav-link">
+                                    <i class="bi bi-person-video3 me-2"></i>
+                                    Assign Subjects
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-        <li class="nav-item">
-            <a class="dropdown-item nav-link" href="{{ route('timetables.print') }}">
-                <i class="bi bi-calendar-day me-2"></i> Print Timetable
-            </a>
-        </li>
-    </ul>
-</li>
+                </div>
+                <div class="dropdown">
 
-</div>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="timetableDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-calendar2-week me-2"></i> Manage Timetable
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow" aria-labelledby="timetableDropdown">
 
- <li class="nav-item">
+                            <li class="nav-item">
+                                <a class="dropdown-item nav-link" href="{{ route('timetable.index') }}">
+                                    <i class="bi bi-calendar-week me-2"></i> Full Week Timetable
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="dropdown-item nav-link" href="{{ route('timetables.print') }}">
+                                    <i class="bi bi-calendar-day me-2"></i> Print Timetable
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </div>
+
+                <li class="nav-item">
                     <a href="{{ route('attendance.index') }}" class="nav-link">
                         <i class="bi bi-check-square me-2"></i> Attendance
                     </a>
                 </li>
+                <div class="dropdown">
 
-                <li class="nav-item">
-    <a class="nav-link" href="{{ route('exams.index') }}">
-        <i class="bi bi-journal-text"></i> {{-- Icon for Exams --}}
-        <span>Manage Exams</span>
-    </a>
-</li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="examDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-journal-text"></i> Manage Exams
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow" aria-labelledby="examDropdown">
 
-
-                <li class="nav-item">
-    <a class="nav-link" href="{{ route('marks.index') }}">
-        <i class="bi bi-pencil-square"></i> {{-- Bootstrap icon for mark entry --}}
-        <span>Marks Entry</span>
-    </a>
-</li>
-
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('results.index') }}">
-        <i class="bi bi-clipboard-data"></i> {{-- Bootstrap icon --}}
-        <span>Exam Results</span>
-    </a>
-</li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('exams.index') }}">
+                                    <i class="bi bi-journal-text"></i> {{-- Icon for Exams --}}
+                                    <span>Exams</span>
+                                </a>
+                            </li>
 
 
-    <!-- Fee Types -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('fee-types.index') }}">
-            <i class="bi bi-cash-coin me-2"></i> Fee Types
-        </a>
-    </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('marks.index') }}">
+                                    <i class="bi bi-pencil-square"></i> {{-- Bootstrap icon for mark entry --}}
+                                    <span>Marks Entry</span>
+                                </a>
+                            </li>
 
-    <!-- Fee Assignments -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('fee-assignments.index') }}">
-            <i class="bi bi-ui-checks-grid me-2"></i> Assign Fees
-        </a>
-    </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('results.index') }}">
+                                    <i class="bi bi-clipboard-data"></i> {{-- Bootstrap icon --}}
+                                    <span>Exam Results</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-    <!-- Student Fees -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('student-fees.index') }}">
-            <i class="bi bi-receipt-cutoff me-2"></i> Fee Collection
-        </a>
-    </li>
+                </div>
 
+                <!-- Fee Types -->
+                <div class="dropdown">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="feeDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-cash-coin me-2"></i> Manage Fee
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow" aria-labelledby="feeDropdown">
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('fee-types.index') }}">
+                                    <i class="bi bi-cash-coin me-2"></i> Fee Types
+                                </a>
+                            </li>
+
+                            <!-- Fee Assignments -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('fee-assignments.index') }}">
+                                    <i class="bi bi-ui-checks-grid me-2"></i> Assign Fees
+                                </a>
+                            </li>
+
+                            <!-- Student Fees -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('student-fees.index') }}">
+                                    <i class="bi bi-receipt-cutoff me-2"></i> Fee Collection
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('reports.classWiseCollection') }}">
+                                    <i class="bi bi-bar-chart-line-fill me-2"></i> Class-wise Fee Collection
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                </div>
 
                 @endif
             </ul>
@@ -177,49 +216,50 @@
                             <i class="bi bi-people-fill me-1"></i> View Users
                         </a>
                     </li>
-                <li class="nav-item">
-                    <a href="{{ route('classes.index') }}" class="nav-link">
-                        <i class="bi bi-journal-text me-1"></i> Manage Classes
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('sections.index') }}" class="nav-link">
-                        <i class="bi bi-layers"></i> Manage Sections
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('students.index') }}" class="nav-link">
-                        <i class="bi bi-people-fill"></i> <!-- FontAwesome icon (optional) -->
-                        <span>Student Management</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('teachers.index') }}" class="nav-link {{ request()->is('teachers*') ? 'active' : '' }}">
-                      <i class="bi bi-person-badge-fill me-2"></i> Teachers
-                    </a>
-                </li>
-                 <li class="nav-item">
-                     <a href="{{ route('subjects.index') }}" class="nav-link">
-                         <i class="bi bi-journal-bookmark-fill me-2"></i>
-                         Subjects
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="{{ route('assign.index') }}" class="nav-link">
-                         <i class="bi bi-person-video3 me-2"></i>
-                         Assign Subjects
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                   <a href="{{ route('timetable.index') }}" class="nav-link">
-                       <i class="bi bi-calendar2-week me-2"></i> Class Timetable
-                   </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="{{ route('attendance.index') }}" class="nav-link">
-                         <i class="bi bi-check-square me-2"></i> Attendance
-                     </a>
-                 </li>
+                    <li class="nav-item">
+                        <a href="{{ route('classes.index') }}" class="nav-link">
+                            <i class="bi bi-journal-text me-1"></i> Manage Classes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('sections.index') }}" class="nav-link">
+                            <i class="bi bi-layers"></i> Manage Sections
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('students.index') }}" class="nav-link">
+                            <i class="bi bi-people-fill"></i> <!-- FontAwesome icon (optional) -->
+                            <span>Student Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('teachers.index') }}"
+                            class="nav-link {{ request()->is('teachers*') ? 'active' : '' }}">
+                            <i class="bi bi-person-badge-fill me-2"></i> Teachers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('subjects.index') }}" class="nav-link">
+                            <i class="bi bi-journal-bookmark-fill me-2"></i>
+                            Subjects
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('assign.index') }}" class="nav-link">
+                            <i class="bi bi-person-video3 me-2"></i>
+                            Assign Subjects
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('timetable.index') }}" class="nav-link">
+                            <i class="bi bi-calendar2-week me-2"></i> Class Timetable
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('attendance.index') }}" class="nav-link">
+                            <i class="bi bi-check-square me-2"></i> Attendance
+                        </a>
+                    </li>
 
 
 

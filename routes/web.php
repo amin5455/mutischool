@@ -20,6 +20,7 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\FeeTypeController;
 use App\Http\Controllers\FeeAssignmentController;
 use App\Http\Controllers\StudentFeeController;
+use App\Http\Controllers\ReportsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -101,8 +102,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('fee-types', FeeTypeController::class);
     Route::resource('fee-assignments', FeeAssignmentController::class);
     Route::resource('student-fees', StudentFeeController::class);
-
-});
+    Route::get('reports/class-wise-collection', [ReportsController::class, 'classWiseCollection'])->name('reports.classWiseCollection');
+    });
 
 
 // Route::middleware(['auth', 'superadmin'])->group(function () {
