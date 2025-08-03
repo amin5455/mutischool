@@ -20,11 +20,11 @@
             <h4 class="mb-4">🏫 MultiSchool</h4>
             <ul class="nav flex-column">
                 @if(Auth::user()->role === 'admin')
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="{{ route('schools.create') }}" class="nav-link">
                         <i class="bi bi-plus-circle me-1"></i> Add School
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a href="{{ route('users.create') }}" class="nav-link">
                         <i class="bi bi-person-plus me-1"></i> Add User
@@ -201,11 +201,11 @@
             <div class="offcanvas-body p-3">
                 <ul class="nav flex-column">
                     @if(Auth::user()->role === 'admin')
-                    <li class="nav-item mb-2">
+                    <!-- <li class="nav-item mb-2">
                         <a href="{{ route('schools.create') }}" class="nav-link">
                             <i class="bi bi-plus-circle me-1"></i> Add School
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item mb-2">
                         <a href="{{ route('users.create') }}" class="nav-link">
                             <i class="bi bi-person-plus me-1"></i> Add User

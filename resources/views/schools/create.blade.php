@@ -30,6 +30,17 @@
                 <textarea name="address" id="address" class="w-full rounded border-gray-300"></textarea>
             </div>
 
+             <div>
+    <label for="user_id">Assign User</label>
+    <select name="user_id" id="user_id" class="w-full rounded border-gray-300" required>
+        <option value="">Select a user</option>
+        @foreach ($users as $user)
+            <option value="{{ $user->id }}">{{ $user->name }}</option>
+        @endforeach
+    </select>
+</div>
+
+
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Add School</button>
         </form>
     </div>

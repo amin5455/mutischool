@@ -67,7 +67,7 @@
                                 <input type="text" class="form-control" name="name" id="name" required>
                                 <small id="classNameError" class="text-danger"></small>
                             </div>
-                            <input type="hidden" name="school_id" value="{{ Auth::user()->school_id }}">
+                            <input type="text" name="school_id" value="{{ Auth::user()->school_id }}">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">Save</button>

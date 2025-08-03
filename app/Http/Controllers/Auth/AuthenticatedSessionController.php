@@ -34,10 +34,10 @@ class AuthenticatedSessionController extends Controller
     if ($user->role === 'super_admin') {
         return redirect()->route('superadmin');
     }
-//        elseif (!auth()->user()->school || auth()->user()->school->status === 'inactive') {
-//     auth()->logout();
-//     return redirect()->route('login')->with('status', 'Your school is currently inactive.');
-// }    
+       elseif (!auth()->user()->school || auth()->user()->school->status === 'inactive') {
+    auth()->logout();
+    return redirect()->route('login')->with('status', 'Your school is currently inactive.');
+}    
 
     return redirect()->route('dashboard');
 }
