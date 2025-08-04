@@ -25,16 +25,7 @@
                         <i class="bi bi-plus-circle me-1"></i> Add School
                     </a>
                 </li> -->
-                <li class="nav-item">
-                    <a href="{{ route('users.create') }}" class="nav-link">
-                        <i class="bi bi-person-plus me-1"></i> Add User
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}" class="nav-link">
-                        <i class="bi bi-people-fill me-1"></i> View Users
-                    </a>
-                </li>
+
                 <li class="nav-item">
                     <a href="{{ route('classes.index') }}" class="nav-link">
                         <i class="bi bi-journal-text me-1"></i> Manage Classes
@@ -145,6 +136,8 @@
                         </ul>
                     </li>
 
+
+
                 </div>
 
                 <!-- Fee Types -->
@@ -185,6 +178,16 @@
 
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('users.create') }}" class="nav-link">
+                            <i class="bi bi-person-plus me-1"></i> Add User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}" class="nav-link">
+                            <i class="bi bi-people-fill me-1"></i> View Users
+                        </a>
+                    </li>
                 </div>
 
                 @endif
@@ -206,16 +209,7 @@
                             <i class="bi bi-plus-circle me-1"></i> Add School
                         </a>
                     </li> -->
-                    <li class="nav-item mb-2">
-                        <a href="{{ route('users.create') }}" class="nav-link">
-                            <i class="bi bi-person-plus me-1"></i> Add User
-                        </a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a href="{{ route('users.index') }}" class="nav-link">
-                            <i class="bi bi-people-fill me-1"></i> View Users
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a href="{{ route('classes.index') }}" class="nav-link">
                             <i class="bi bi-journal-text me-1"></i> Manage Classes
@@ -260,8 +254,92 @@
                             <i class="bi bi-check-square me-2"></i> Attendance
                         </a>
                     </li>
+                    <div class="dropdown">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="examDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-journal-text"></i> Manage Exams
+                            </a>
+                            <ul class="dropdown-menu border-0 shadow" aria-labelledby="examDropdown">
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('exams.index') }}">
+                                        <i class="bi bi-journal-text"></i> {{-- Icon for Exams --}}
+                                        <span>Exams</span>
+                                    </a>
+                                </li>
 
 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('marks.index') }}">
+                                        <i class="bi bi-pencil-square"></i> {{-- Bootstrap icon for mark entry --}}
+                                        <span>Marks Entry</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('results.index') }}">
+                                        <i class="bi bi-clipboard-data"></i> {{-- Bootstrap icon --}}
+                                        <span>Exam Results</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+                    </div>
+
+                    <!-- Fee Types -->
+                    <div class="dropdown">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="feeDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-cash-coin me-2"></i> Manage Fee
+                            </a>
+                            <ul class="dropdown-menu border-0 shadow" aria-labelledby="feeDropdown">
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('fee-types.index') }}">
+                                        <i class="bi bi-cash-coin me-2"></i> Fee Types
+                                    </a>
+                                </li>
+
+                                <!-- Fee Assignments -->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('fee-assignments.index') }}">
+                                        <i class="bi bi-ui-checks-grid me-2"></i> Assign Fees
+                                    </a>
+                                </li>
+
+                                <!-- Student Fees -->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('student-fees.index') }}">
+                                        <i class="bi bi-receipt-cutoff me-2"></i> Fee Collection
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('reports.classWiseCollection') }}">
+                                        <i class="bi bi-bar-chart-line-fill me-2"></i> Class-wise Fee Collection
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('users.create') }}" class="nav-link">
+                                <i class="bi bi-person-plus me-1"></i> Add User
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('users.index') }}" class="nav-link">
+                                <i class="bi bi-people-fill me-1"></i> View Users
+                            </a>
+                        </li>
+                    </div>
 
                     @endif
                 </ul>
