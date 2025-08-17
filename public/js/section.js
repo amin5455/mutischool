@@ -69,7 +69,8 @@ $('#sectionForm').on('submit', function (e) {
             name: $('#section_name').val(),
             school_class_id: $('#school_class_id').val()
         },
-        success: function () {
+        success: function (res) {
+            alert(res.success);
             $('#sectionForm')[0].reset();
             $('#section_id').val('');
             $('#sectionModal').modal('hide');

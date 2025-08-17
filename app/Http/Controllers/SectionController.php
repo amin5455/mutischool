@@ -10,18 +10,35 @@ class SectionController extends Controller
 {
     public function index()
     {
-        $sections = Section::with('schoolClass')->get();
-        $classes = SchoolClass::all();
+         $schoolId = auth()->user()->school_id; // current school
+
+         $sections = Section::with('schoolClass')
+           ->where('school_id', $schoolId)
+           ->get();
+
+         $classes = SchoolClass::where('school_id', $schoolId)->get();
+
         return view('sections.index', compact('sections', 'classes'));
     }
 
     public function store(Request $request)
     {
-            $request->validate([
-        'name' => 'required|unique:sections,name,NULL,id,school_class_id,' . $request->school_class_id,
+          $schoolId = auth()->user()->school_id;
+
+    $request->validate([
+        'name' => 'required',
         'school_class_id' => 'required|exists:school_classes,id',
     ]);
 
+    // Check unique inside the same class + same school
+    $exists = Section::where('school_id', $schoolId)
+        ->where('school_class_id', $request->school_class_id)
+        ->where('name', $request->name)
+        ->exists();
+
+    if ($exists) {
+        return response()->json(['success' => 'This section already exists in the selected class.']);
+    }
         Section::create([
         'name' => $request->name,
         'school_class_id' => $request->school_class_id,
