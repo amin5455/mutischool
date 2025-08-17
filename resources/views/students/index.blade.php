@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h4>Student Management</h4>
-    <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#studentModal" onclick="openStudentModal()">Add Student</button>
+<div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
 
-    <table class="table table-bordered" id="studentTable">
+    <h4>Student Management</h4>
+    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#studentModal" onclick="openStudentModal()">+ Add Student</button>
+</div>
+    <table class="table table-bordered" id="studentDataTable">
         <thead>
             <tr>
                 <th>Name</th>

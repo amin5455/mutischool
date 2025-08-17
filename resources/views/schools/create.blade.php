@@ -1,16 +1,12 @@
-@extends('layouts.app') <!-- If you're using a common layout -->
-
-@section('content')
-        <h2 class="mt-2 ml-2">
-            Add New School
-        </h2>
-    
+<x-guest-layout>
 
     <div class="p-6">
         <form action="{{ route('schools.store') }}" method="POST" class="space-y-4">
             @csrf
 
             <div>
+                <input type="hidden" name="user_id" value="{{ $id }}">
+
                 <label for="name">School Name</label>
                 <input type="text" name="name" id="name" class="w-full rounded border-gray-300" required>
             </div>
@@ -30,18 +26,9 @@
                 <textarea name="address" id="address" class="w-full rounded border-gray-300"></textarea>
             </div>
 
-             <div>
-    <label for="user_id">Assign User</label>
-    <select name="user_id" id="user_id" class="w-full rounded border-gray-300" required>
-        <option value="">Select a user</option>
-        @foreach ($users as $user)
-            <option value="{{ $user->id }}">{{ $user->name }}</option>
-        @endforeach
-    </select>
-</div>
-
 
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Add School</button>
         </form>
     </div>
-@endsection
+
+</x-guest-layout>

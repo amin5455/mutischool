@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-4">
+<div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-4">Subject Management</h4>
 
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#subjectModal" onclick="openSubjectModal()">Add Subject</button>
-
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#subjectModal" onclick="openSubjectModal()">+ Add Subject</button>
+</div>
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="subjectDataTable">
             <thead>
                 <tr>
                     <th>Subject Name</th>
@@ -59,6 +60,26 @@
   </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteSubjectModal" tabindex="-1" aria-labelledby="deleteSubjectModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this subject?
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="delete_subject_id">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteSubject()">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 

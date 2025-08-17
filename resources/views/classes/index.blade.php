@@ -11,7 +11,8 @@
 
         <!-- Classes Table -->
         <div id="classesTable">
-            <table class="table table-bordered">
+            <table id="schoolDataTable" class="table table-bordered">
+
     <thead>
         <tr>
             <th>#</th>
@@ -21,12 +22,12 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($classes as $index => $class)
+        @foreach ($classes as $index => $class)
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $class->name }}</td>
                 <td>
-                <button class="btn btn-sm btn-primary edit-class-btn" 
+                <button class="btn btn-sm btn-secondary edit-class-btn" 
                   data-id="{{ $class->id }}" 
                   data-name="{{ $class->name }}">
                   Edit
@@ -41,11 +42,7 @@
                 
 
             </tr>
-        @empty
-            <tr>
-                <td colspan="2">No classes found.</td>
-            </tr>
-        @endforelse
+        @endforeach
     </tbody>
 </table>
 
@@ -57,7 +54,7 @@
                 <form id="classForm">
                     @csrf
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title" id="classModalLabel">Add New Class</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -67,7 +64,7 @@
                                 <input type="text" class="form-control" name="name" id="name" required>
                                 <small id="classNameError" class="text-danger"></small>
                             </div>
-                            <input type="text" name="school_id" value="{{ Auth::user()->school_id }}">
+                            <input type="hidden" name="school_id" value="{{ Auth::user()->school_id }}">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">Save</button>
@@ -86,7 +83,9 @@
     <div class="modal fade" id="editClassModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+         <form id="classForm">
+                    @csrf
+      <div class="modal-header bg-primary text-white">
         <h5 class="modal-title">Edit Class</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
@@ -97,6 +96,7 @@
             <input type="text" id="editClassName" class="form-control">
             <small id="editClassNameError" class="text-danger"></small>
         </div>
+</form>
       </div>
       <div class="modal-footer">
         <button id="updateClassBtn" class="btn btn-primary">Update</button>
@@ -120,7 +120,7 @@
         <input type="hidden" id="deleteClassId">
       </div>
       <div class="modal-footer">
-        <button id="confirmDeleteClass" class="btn btn-danger">Yes, Delete</button>
+        <button id="confirmDeleteClass" class="btn btn-danger">Delete</button>
         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       </div>
     </div>

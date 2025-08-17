@@ -52,7 +52,7 @@
                 <td>{{ $student->section->name ?? '-' }}</td>
                 <td>
                     <a href="{{ route('result.show', [$student->id, request('exam_id')]) }}" class="btn btn-sm btn-success">View Result</a>
-                    <a href="{{ route('result.pdf', [$student->id, request('exam_id')]) }}" class="btn btn-sm btn-info">Download PDF</a>
+                    <a href="{{ route('result.pdf', [$student->id, request('exam_id')]) }}" class="btn btn-sm btn-info disabled">Download PDF</a>
                 </td>
             </tr>
             @endforeach

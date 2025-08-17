@@ -75,7 +75,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <input type="text" name="exam_id" id="exam_id">
+          <input type="hidden" name="exam_id" id="exam_id">
           <div class="form-group mb-3">
               <label>Select Class</label>
               <select name="class_id" id="class_id" class="form-control" required>

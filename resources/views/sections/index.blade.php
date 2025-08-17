@@ -2,13 +2,14 @@
 
 @section('content')
     <div class="container mt-4">
-        <h4 class="mb-3">Manage Sections</h4>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Manage Sections</h4>
 
         <!-- Button to trigger modal -->
-        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#sectionModal">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sectionModal">
             + Add Section
         </button>
-
+</div>
         <!-- Section Table -->
         <div class="table-responsive">
             <table class="table table-bordered" id="sectionTable">
@@ -26,7 +27,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="sectionModal" tabindex="-1" aria-labelledby="sectionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="sectionModal" tabindex="-1">
         <div class="modal-dialog">
             <form id="sectionForm">
                 @csrf
@@ -34,7 +35,7 @@
                     <input type="hidden" name="school_id" value="{{ Auth::user()->school_id }}">
                     <input type="hidden" id="section_id" name="section_id">
 
-                    <div class="modal-header">
+                    <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="sectionModalLabel">Add Section</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
@@ -65,7 +66,7 @@
 
 
     <!-- Delete Section Modal -->
-<div class="modal fade" id="deleteSectionModal" tabindex="-1" aria-labelledby="deleteSectionModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteSectionModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
@@ -83,9 +84,5 @@
         </div>
     </div>
 </div>
-
-
-    <!-- Include JS -->
-    <script src="{{ asset('js/section.js') }}"></script>
 
 @endsection

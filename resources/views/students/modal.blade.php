@@ -4,7 +4,7 @@
             @csrf
             <input type="hidden" name="id" id="student_id">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title">Student Form</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>

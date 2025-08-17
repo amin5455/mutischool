@@ -16,9 +16,12 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response.success) {
+                
                     $('#classModal').modal('hide');
                     $('#classForm')[0].reset();
-                    $('#classesTable').html(response.table);
+                     location.reload(); 
+
+
                 } else {
                     alert('Failed to save class');
                 }
@@ -59,11 +62,17 @@ $(document).ready(function () {
                 name: className,
                 _token: $('meta[name="csrf-token"]').attr('content'),
             },
-            success: function (res) {
-                $('#editClassModal').modal('hide');
-                alert(res.success);
-                location.reload(); // or refetch table via AJAX
-            },
+     success: function (response) {
+    if (response.success) {
+        $('#editClassModal').modal('hide');
+        $('#classForm')[0].reset();
+        alert(response.message);
+         location.reload(); 
+
+    } else {
+        alert('Failed to save class');
+    }
+},
             error: function (xhr) {
                 let err = xhr.responseJSON.errors;
                 if (err && err.name) {
@@ -90,7 +99,7 @@ $(document).ready(function () {
     // Confirm delete
     $('#confirmDeleteClass').on('click', function () {
         let classId = $('#deleteClassId').val();
-
+        $(this).prop('disabled', true);
         $.ajax({
             url: `/classes/${classId}`,
             method: 'DELETE',

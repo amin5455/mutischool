@@ -43,6 +43,6 @@
             </tr>
         </tbody>
     </table>
-    <a href="{{ route('result.pdf', [$student->id, $exam->id]) }}" class="btn btn-primary">Download PDF</a>
+    <a href="{{ route('result.pdf', [$student->id, $exam->id]) }}" class="btn btn-primary disabled">Download PDF</a>
 </div>
 @endsection

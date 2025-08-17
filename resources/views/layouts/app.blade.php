@@ -8,9 +8,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js']) {{-- Keep for Laravel --}}
     <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+
 </head>
+<style>
+.dataTables_wrapper .dataTables_length select{
+        width: 60px !important;
+    }
+</style>
 
 <body class="bg-light">
     <div class="d-flex" style="min-height: 100vh;">
@@ -20,12 +31,12 @@
             <h4 class="mb-4">🏫 MultiSchool</h4>
             <ul class="nav flex-column">
                 @if(Auth::user()->role === 'admin')
-                <!-- <li class="nav-item">
-                    <a href="{{ route('schools.create') }}" class="nav-link">
-                        <i class="bi bi-plus-circle me-1"></i> Add School
+           
+               <li class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link">
+                      <i class="bi bi-speedometer2"></i> Dashboard
                     </a>
-                </li> -->
-
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('classes.index') }}" class="nav-link">
                         <i class="bi bi-journal-text me-1"></i> Manage Classes
@@ -60,7 +71,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('subjects.index') }}" class="nav-link">
                                     <i class="bi bi-journal-bookmark-fill me-2"></i>
-                                    Subjects
+                                    Add Subjects
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -204,11 +215,6 @@
             <div class="offcanvas-body p-3">
                 <ul class="nav flex-column">
                     @if(Auth::user()->role === 'admin')
-                    <!-- <li class="nav-item mb-2">
-                        <a href="{{ route('schools.create') }}" class="nav-link">
-                            <i class="bi bi-plus-circle me-1"></i> Add School
-                        </a>
-                    </li> -->
 
                     <li class="nav-item">
                         <a href="{{ route('classes.index') }}" class="nav-link">
@@ -235,7 +241,7 @@
                     <li class="nav-item">
                         <a href="{{ route('subjects.index') }}" class="nav-link">
                             <i class="bi bi-journal-bookmark-fill me-2"></i>
-                            Subjects
+                           Add Subjects
                         </a>
                     </li>
                     <li class="nav-item">
@@ -347,6 +353,7 @@
         </div>
 
 
+        
 
 
         <!-- Content Area -->
@@ -362,7 +369,7 @@
                     </button>
 
                     <!-- Dashboard Title -->
-                    <span class="navbar-brand fw-semibold">Dashboard</span>
+                    <span class="navbar-brand fw-semibold">{{ Auth::user()->school->name }}</span>
 
                     <!-- Right: Always Visible User Dropdown -->
                     @auth
@@ -402,7 +409,8 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="{{ asset('js/class.js') }}"></script> {{-- We'll create this file next --}}
     <script src="{{ asset('js/section.js') }}"></script>
@@ -416,7 +424,21 @@
     <script src="{{ asset('js/marks.js') }}"></script>
 
 
+    @yield('scripts')
+<script>
+  $(document).ready(function() {
+    $('#schoolDataTable').DataTable({
+      // Optional settings:
+      responsive: true,
+      pageLength: 10,
+      language: {
+        searchPlaceholder: "Search classes...",
+        search: "",
+      }
+    });
+  });
 
+</script>
 
 </body>
 

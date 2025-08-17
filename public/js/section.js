@@ -18,6 +18,39 @@ $(document).ready(function () {
                 `;
             });
             $('#sectionTable tbody').html(rows);
+            
+            
+               $('#sectionTable').DataTable({
+                 // Optional settings:
+                 responsive: true,
+                 pageLength: 10,
+                 language: {
+                   searchPlaceholder: "Search classes...",
+                   search: "",
+                     }
+                   });
+                 
+        });
+    }
+
+       function fetchSectionsEdit() {
+        $.get('/sections/list', function (data) {
+            let rows = '';
+            $.each(data, function (index, section) {
+                rows += `
+                    <tr>
+                        <td>${section.id}</td>
+                        <td>${section.name}</td>
+                        <td>${section.school_class.name}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info edit-section" data-id="${section.id}">Edit</button>
+                            <button class="btn btn-sm btn-danger delete-section" data-id="${section.id}">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $('#sectionTable tbody').html(rows);
+            
         });
     }
 
@@ -37,13 +70,19 @@ $('#sectionForm').on('submit', function (e) {
             school_class_id: $('#school_class_id').val()
         },
         success: function () {
-            $('#sectionModal').modal('hide');
             $('#sectionForm')[0].reset();
             $('#section_id').val('');
-            fetchSections();
+            $('#sectionModal').modal('hide');
+          $('#sectionModal').on('hidden.bs.modal', function () {
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open').css('overflow', 'auto');
+    });
+            fetchSectionsEdit();
         },
         error: function (xhr) {
-            alert('Error: ' + xhr.responseJSON.message);
+            alert(xhr.responseJSON.message);
+            $('#sectionForm')[0].reset();
+
         }
     });
 });
@@ -84,12 +123,13 @@ $('#confirmDeleteSection').on('click', function () {
         },
         success: function (res) {
             $('#deleteSectionModal').modal('hide');
-            fetchSections();
+            fetchSectionsEdit();
         },
         error: function (err) {
             alert('Error deleting section');
         }
     });
 });
+
 
 });

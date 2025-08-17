@@ -84,14 +84,18 @@ if ($conflict) {
     }
     public function showAllTimetables()
 {
-    $classes = SchoolClass::with('timetables.subject', 'timetables.teacher')->get();
+    $classes = SchoolClass::with('timetables.subject', 'timetables.teacher')
+    ->where('school_id', auth()->user()->school_id)
+    ->get();
     return view('timetable.print_all', compact('classes'));
 }
 
 public function printClassTimetable($id)
 {
     $class = SchoolClass::with('timetables.subject', 'timetables.teacher')
-                ->where('id', $id)->firstOrFail();
+                ->where('id', $id)
+                ->where('school_id', auth()->user()->school_id)
+                ->firstOrFail();
     return view('timetable.print_single', compact('class'));
 }
 }

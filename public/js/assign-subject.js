@@ -10,11 +10,15 @@ $(document).ready(function () {
             success: function (res) {
                 alert(res.success);
                 $('#assignForm')[0].reset();
-                loadAssignments();
+                loadAssignment();
             },
-            error: function (err) {
-                alert("Failed to assign. Check inputs.");
-            }
+             error: function(xhr) {
+        if (xhr.responseJSON.error) {
+            alert(xhr.responseJSON.error); // duplicate assignment
+        } else if (xhr.responseJSON.errors) {
+            alert(Object.values(xhr.responseJSON.errors).join("\n")); // validation errors
+        }
+    }
         });
     });
 });
@@ -29,17 +33,54 @@ function loadAssignments() {
                     <td>${row.subject?.name ?? ''}</td>
                     <td>${row.teacher?.name ?? ''}</td>
                     <td>
-                        <button class="btn btn-danger btn-sm" onclick="deleteAssignment(${row.id})">Delete</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteAssSubject(${row.id})">Delete</button>
                     </td>
                 </tr>
             `;
         });
         $('#assignmentsTable').html(html);
+
+         $('#assubjectDataTable').DataTable({
+      // Optional settings:
+      responsive: true,
+      pageLength: 10,
+      language: {
+        searchPlaceholder: "Search classes...",
+        search: "",
+      }
+    });
     });
 }
 
-function deleteAssignment(id) {
-    if (confirm('Are you sure to delete this assignment?')) {
+function loadAssignment() {
+    $.get('/assign-subjects/list', function (data) {
+        let html = '';
+        data.forEach(row => {
+            html += `
+                <tr>
+                    <td>${row.class?.name ?? ''}</td>
+                    <td>${row.subject?.name ?? ''}</td>
+                    <td>${row.teacher?.name ?? ''}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteAssSubject(${row.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+        $('#assignmentsTable').html(html);
+
+      
+    });
+}
+
+function deleteAssSubject(id) {
+    $('#delete_asssubject_id').val(id);
+    $('#deleteAssSubjectModal').modal('show');
+}
+
+function confirmDeleteAssSubject() {
+        let id = $('#delete_asssubject_id').val();
+
         $.ajax({
             url: `/assign-subjects/${id}`,
             type: 'DELETE',
@@ -48,8 +89,8 @@ function deleteAssignment(id) {
             },
             success: function (res) {
                 alert(res.success);
-                loadAssignments();
+                $('#deleteAssSubjectModal').modal('hide');
+                loadAssignment();
             }
         });
-    }
 }

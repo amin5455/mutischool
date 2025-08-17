@@ -18,12 +18,22 @@ $(document).ready(function () {
             success: function (res) {
                 $('#subjectModal').modal('hide');
                 $('#subjectForm')[0].reset();
-                fetchSubjects();
                 alert(res.success);
+                $('#subjectModal').on('hidden.bs.modal', function () {
+                $('.modal-backdrop').remove();
+                $('body').removeClass('modal-open').css('overflow', 'auto');
+              });
+                fetchSubject();
+
             },
-            error: function (err) {
-                alert('Error saving subject');
-            }
+           error: function(xhr) {
+        if (xhr.responseJSON.error) {
+            alert(xhr.responseJSON.error); // duplicate subject
+        } else if (xhr.responseJSON.errors) {
+            alert(Object.values(xhr.responseJSON.errors).join("\n")); // validation errors
+        }
+    }
+
         });
     });
 });
@@ -37,14 +47,43 @@ function fetchSubjects() {
                     <td>${s.name}</td>
                     <td>${s.school_class?.name ?? ''}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="editSubject(${s.id})">Edit</button>
+                        <button class="btn btn-sm btn-info" onclick="editSubject(${s.id})">Edit</button>
                         <button class="btn btn-sm btn-danger" onclick="deleteSubject(${s.id})">Delete</button>
                     </td>
                 </tr>`;
         });
         $('#subjectTableBody').html(html);
+          $('#subjectDataTable').DataTable({
+      // Optional settings:
+      responsive: true,
+      pageLength: 10,
+      language: {
+        searchPlaceholder: "Search classes...",
+        search: "",
+      }
+    });
     });
 }
+
+function fetchSubject() {
+    $.get('/get-subjects', function (subjects) {
+        let html = '';
+        subjects.forEach(function (s) {
+            html += `
+                <tr>
+                    <td>${s.name}</td>
+                    <td>${s.school_class?.name ?? ''}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="editSubject(${s.id})">Edit</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteSubject(${s.id})">Delete</button>
+                    </td>
+                </tr>`;
+        });
+        $('#subjectTableBody').html(html);
+        
+    });
+}
+
 
 function openSubjectModal() {
     $('#subjectForm')[0].reset();
@@ -63,7 +102,13 @@ function editSubject(id) {
 }
 
 function deleteSubject(id) {
-    if (confirm('Are you sure you want to delete this subject?')) {
+    $('#delete_subject_id').val(id);
+    $('#deleteSubjectModal').modal('show');
+}
+
+
+function confirmDeleteSubject() {
+    let id = $('#delete_subject_id').val();
         $.ajax({
             url: `/subjects/${id}`,
             type: 'DELETE',
@@ -72,8 +117,10 @@ function deleteSubject(id) {
             },
             success: function (res) {
                 alert(res.success);
-                fetchSubjects();
+                $('#deleteSubjectModal').modal('hide');
+                
+                fetchSubject();
             }
         });
     }
-}
+

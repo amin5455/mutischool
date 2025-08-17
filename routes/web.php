@@ -26,9 +26,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::get('/dashboard', [SchoolController::class, 'adminDashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
 Route::get('/login', function () {
     return view('auth.login');
 })->middleware(['auth', 'verified'])->name('login');
@@ -36,14 +39,20 @@ Route::middleware(['auth', 'superadmin'])->group(function () {
    Route::get('/superadmin', [SuperAdminController::class, 'index'])->name('superadmin');
      Route::post('/schools/{school}/toggle', [\App\Http\Controllers\SuperAdminController::class, 'toggleStatus'])->name('schools.toggle');
 });
+
+    Route::post('/schools', [SchoolController::class, 'store'])->name('schools.store');
+    Route::get('/schools/{id}', [SchoolController::class, 'schoolPage'])->name('schools.form');
+
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/schools/create', [SchoolController::class, 'create'])->name('schools.create');
-    Route::post('/schools', [SchoolController::class, 'store'])->name('schools.store');
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('/schools', [SchoolController::class, 'index']);
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::get('/users', [UserController::class, 'index'])->middleware(['auth'])->name('users.index');
     Route::get('/classes', [ClassController::class, 'index'])->name('classes.index');
     Route::post('/classes', [ClassController::class, 'store'])->name('classes.store');

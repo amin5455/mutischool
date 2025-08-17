@@ -36,6 +36,19 @@ class StudentController extends Controller
             'section_id' => 'required|exists:sections,id',
         ]);
 
+        
+    // Check if student name already exists in this class (for this school)
+    $exists = Student::where('school_id', auth()->user()->school_id)
+        ->where('class_id', $request->class_id)
+        ->where('name', $request->name)
+        ->exists();
+
+    if ($exists) {
+        return response()->json([
+            'error' => 'A student with this name already exists in the selected class.'
+        ], 422);
+    }
+
        $student = Student::create([
        'name' => $request->name,
        'gender' => $request->gender,
@@ -45,31 +58,50 @@ class StudentController extends Controller
        'section_id' => $request->section_id,
         ]);
 
-        return response()->json(['success' => 'Student added successfully', 'student' => $student]);
+        return response()->json([
+        'success' => 'Student added successfully',
+        'student' => $student
+    ]);
     }
 
-    public function update(Request $request, $id)
-    {
-        $student = Student::findOrFail($id);
+   public function update(Request $request, $id)
+{
+    $student = Student::findOrFail($id);
 
-        $request->validate([
-            'name'       => 'required|string|max:255',
-            'gender'     => 'required|in:Male,Female',
-            'dob'        => 'required|date',
-            'class_id'   => 'required|exists:school_classes,id',
-            'section_id' => 'required|exists:sections,id',
-        ]);
+    $request->validate([
+        'name'       => 'required|string|max:255',
+        'gender'     => 'required|in:Male,Female',
+        'dob'        => 'required|date',
+        'class_id'   => 'required|exists:school_classes,id',
+        'section_id' => 'required|exists:sections,id',
+    ]);
 
-            $student = Student::create([
-           'name' => $request->name,
-           'gender' => $request->gender,
-           'dob' => $request->dob,
-           'school_id' => auth()->user()->school_id,  // or from session
-           'class_id' => $request->class_id,
-           'section_id' => $request->section_id,
-            ]);
-        return response()->json(['success' => 'Student updated successfully']);
+    // Check if student name already exists in this class (excluding this student)
+    $exists = Student::where('school_id', auth()->user()->school_id)
+        ->where('class_id', $request->class_id)
+        ->where('name', $request->name)
+        ->where('id', '!=', $id) // exclude current student
+        ->exists();
+
+    if ($exists) {
+        return response()->json([
+            'error' => 'A student with this name already exists in the selected class.'
+        ], 422);
     }
+
+    // ✅ Update instead of creating a new record
+    $student->update([
+        'name' => $request->name,
+        'gender' => $request->gender,
+        'dob' => $request->dob,
+        'school_id' => auth()->user()->school_id,
+        'class_id' => $request->class_id,
+        'section_id' => $request->section_id,
+    ]);
+
+    return response()->json(['success' => 'Student updated successfully']);
+}
+
 
     public function destroy($id)
     {

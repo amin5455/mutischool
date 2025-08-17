@@ -27,9 +27,45 @@ function fetchStudents() {
         });
 
         $('#studentTableBody').html(html);
+  $('#studentDataTable').DataTable({
+      // Optional settings:
+      responsive: true,
+      pageLength: 10,
+      language: {
+        searchPlaceholder: "Search classes...",
+        search: "",
+      }
+    });
+     
+        
     });
 }
 
+
+function fetchStudent() {
+    $.get('/students/list', function (students) {
+        let html = '';
+
+        students.forEach(function (s) {
+            html += `
+                <tr id="studentRow${s.id}">
+                    <td>${s.name}</td>
+                    <td>${s.gender}</td>
+                    <td>${s.dob}</td>
+                    <td>${s.school_class?.name ?? ''}</td>
+                    <td>${s.section?.name ?? ''}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="editStudent(${s.id})">Edit</button>
+                        <button class="btn btn-sm btn-danger" onclick="openDeleteModal(${s.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        $('#studentTableBody').html(html);
+    });
+}
+        
     $('#studentForm').submit(function (e) {
         e.preventDefault();
         let id = $('#student_id').val();
@@ -41,13 +77,26 @@ function fetchStudents() {
             type: method,
             data: $(this).serialize(),
             success: function (res) {
-            $('#studentModal').modal('hide');
                 alert(res.success);
-                fetchStudents();
-            },
-            error: function (xhr) {
-                alert(Object.values(xhr.responseJSON.errors).join("\n"));
-            }
+                $('#studentModal').modal('hide');
+                $('#studentModal').on('hidden.bs.modal', function () {
+                 $('.modal-backdrop').remove();
+                 $('body').removeClass('modal-open').css('overflow', 'auto');
+              });
+                   fetchStudent();
+
+              },
+          error: function (xhr) {
+    if (xhr.responseJSON.error) {
+        // Custom duplicate student message
+        alert(xhr.responseJSON.error);
+    } else if (xhr.responseJSON.errors) {
+        // Validation errors
+        alert(Object.values(xhr.responseJSON.errors).join("\n"));
+    } else {
+        alert('An unexpected error occurred.');
+    }
+}
         });
     });
 });

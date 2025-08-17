@@ -41,6 +41,16 @@ public function update(Request $request, $id)
     ]);
 
     $section = Section::findOrFail($id);
+      // Check for duplicate section
+    $exists = Section::where('name', $request->name)
+        ->where('school_class_id', $request->school_class_id)
+        ->where('school_id', auth()->user()->school_id) // assuming you have this field
+        ->where('id', '!=', $id) // exclude current section
+        ->exists();
+
+    if ($exists) {
+        return response()->json(['message' => 'This section already exists for the selected class.'], 422);
+    }
     $section->update([
     'name' => $request->name,
     'school_class_id' => $request->school_class_id,

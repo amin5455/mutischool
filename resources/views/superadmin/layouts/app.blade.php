@@ -18,7 +18,7 @@
     <ul class="nav flex-column">
         @if(Auth::user()->role === 'super_admin')
             <li class="nav-item">
-                <a href="{{ route('schools.create') }}" class="nav-link">
+                <a href="" class="nav-link">
                     <i class="bi bi-plus-circle me-1"></i> Add School
                 </a>
             </li>
@@ -46,13 +46,13 @@
     </div>
     <div class="offcanvas-body p-3">
         <ul class="nav flex-column">
-            @if(Auth::user()->role === 'admin')
+            @if(Auth::user()->role === 'super_admin')
                 <li class="nav-item mb-2">
-                    <a href="{{ route('schools.create') }}" class="nav-link">
+                    <a href="" class="nav-link">
                         <i class="bi bi-plus-circle me-1"></i> Add School
                     </a>
                 </li>
-                <li class="nav-item mb-2">
+                <!-- <li class="nav-item mb-2">
                     <a href="{{ route('users.create') }}" class="nav-link">
                         <i class="bi bi-person-plus me-1"></i> Add User
                     </a>
@@ -61,7 +61,7 @@
                     <a href="{{ route('users.index') }}" class="nav-link">
                         <i class="bi bi-people-fill me-1"></i> View Users
                     </a>
-                </li>
+                </li> -->
             @endif
         </ul>
     </div>

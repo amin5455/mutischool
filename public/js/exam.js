@@ -20,6 +20,11 @@ $('#assignSubjectsForm').on('submit', function(e) {
             $('#assignSubjectsModal').modal('hide');
 
             alert("Subject assigned successfully.");
+
+              $('#assignSubjectsModal').on('hidden.bs.modal', function () {
+                 $('.modal-backdrop').remove();
+                 $('body').removeClass('modal-open').css('overflow', 'auto');
+              });
             // Optionally reset form or reload part of page
         } else {
             alert("Something went wrong!");

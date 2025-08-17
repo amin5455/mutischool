@@ -33,23 +33,36 @@ class ClassSubjectTeacherController extends Controller
         return response()->json($assignments);
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'class_id' => 'required|exists:school_classes,id',
-            'subject_id' => 'required|exists:subjects,id',
-            'teacher_id' => 'required|exists:teachers,id',
-        ]);
+  public function store(Request $request)
+{
+    $request->validate([
+        'class_id'   => 'required|exists:school_classes,id',
+        'subject_id' => 'required|exists:subjects,id',
+        'teacher_id' => 'required|exists:teachers,id',
+    ]);
 
-        ClassSubjectTeacher::create([
-            'class_id' => $request->class_id,
-            'subject_id' => $request->subject_id,
-            'teacher_id' => $request->teacher_id,
-            'school_id' => auth()->user()->school_id,
-        ]);
+    $exists = ClassSubjectTeacher::where('school_id', auth()->user()->school_id)
+        ->where('class_id', $request->class_id)
+        ->where('subject_id', $request->subject_id)
+        ->where('teacher_id', $request->teacher_id)
+        ->exists();
 
-        return response()->json(['success' => 'Assigned successfully']);
+    if ($exists) {
+        return response()->json([
+            'error' => 'This teacher is already assigned to this subject in this class.'
+        ], 422);
     }
+
+    ClassSubjectTeacher::create([
+        'class_id'   => $request->class_id,
+        'subject_id' => $request->subject_id,
+        'teacher_id' => $request->teacher_id,
+        'school_id'  => auth()->user()->school_id,
+    ]);
+
+    return response()->json(['success' => 'Assigned successfully']);
+}
+
 
     public function destroy($id)
     {

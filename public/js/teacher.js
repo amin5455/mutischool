@@ -25,11 +25,25 @@ $(document).ready(function () {
             success: function (res) {
                 $('#teacherModal').modal('hide');
                 $('#teacherForm')[0].reset();
-                fetchTeachers();
+                $('#teacherModal').on('hidden.bs.modal', function () {
+                $('.modal-backdrop').remove();
+                $('body').removeClass('modal-open').css('overflow', 'auto');
+              });
+                fetchTeacher();
+
+
             },
              error: function (xhr) {
-                alert(Object.values(xhr.responseJSON.errors).join("\n"));
-            }
+    if (xhr.responseJSON.error) {
+        // Custom duplicate teacher message
+        alert(xhr.responseJSON.error);
+    } else if (xhr.responseJSON.errors) {
+        // Laravel validation errors
+        alert(Object.values(xhr.responseJSON.errors).join("\n"));
+    } else {
+        alert('An unexpected error occurred.');
+    }
+}
         });
     });
 });
@@ -53,6 +67,37 @@ function fetchTeachers() {
             `;
         });
         $('#teacherTableBody').html(rows);
+          $('#teacherDataTable').DataTable({
+      // Optional settings:
+      responsive: true,
+      pageLength: 10,
+      language: {
+        searchPlaceholder: "Search classes...",
+        search: "",
+      }
+    });
+    });
+}
+
+function fetchTeacher() {
+    $.get('/teachers/fetch', function (res) {
+        let rows = '';
+        res.teachers.forEach((teacher, index) => {
+            rows += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${teacher.name}</td>
+                    <td>${teacher.phone ?? '-'}</td>
+                    <td>${teacher.address ?? '-'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="editTeacher(${teacher.id}, '${teacher.name}', '${teacher.phone ?? ''}', '${teacher.address ?? ''}')">Edit</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteTeacher(${teacher.id})">Delete</button>
+                    </td>
+                </tr>
+            `;
+        });
+        $('#teacherTableBody').html(rows);
+   
     });
 }
 
@@ -75,15 +120,19 @@ function editTeacher(id, name, phone, address) {
 
 // ✅ Delete teacher
 function deleteTeacher(id) {
-    alert(id)
-    if (confirm('Are you sure to delete this teacher?')) {
-        $.ajax({
+    $('#delete_teacher_id').val(id);
+    $('#deleteTeacherModal').modal('show');
+}
+
+function confirmDeleteTeacher() {
+    let id = $('#delete_teacher_id').val();
+  $.ajax({
             url: `/teachers/delete/${id}`,
             method: 'DELETE',
             data: {},
             success: function (res) {
-                fetchTeachers();
+            $('#deleteTeacherModal').modal('hide');
+                fetchTeacher();
             }
         });
-    }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-4">
     <h4 class="mb-4">Class Timetable</h4>
 
     <form id="timetableForm" class="row g-3 mb-4">
@@ -57,7 +57,7 @@
         </div>
 
         <div class="col-md-3 mt-4">
-            <button class="btn btn-success mt-2">Add Routine</button>
+            <button class="btn btn-primary mt-2">+ Add Routine</button>
         </div>
     </form>
 
